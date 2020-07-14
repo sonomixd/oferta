@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>285474531207-b353lght36dp9erlkstucdvov7broblg.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.285474531207-b353lght36dp9erlkstucdvov7broblg</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCLKAhC57mYOP5SfrI6sS98t5dGmsf5i4w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>285474531207</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.sonomixd.oferta</string>
+	<key>PROJECT_ID</key>
+	<string>oferta-81e6b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>oferta-81e6b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:285474531207:ios:5363f2446162cb855b1522</string>
+	<key>DATABASE_URL</key>
+	<string>https://oferta-81e6b.firebaseio.com</string>
+</dict>
+</plist>
