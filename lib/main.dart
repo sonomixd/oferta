@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'drawerScreen.dart';
-import 'homeScreen.dart';
+import 'home.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: HomePage(),
-  ));
+  runApp(MyApp());
 }
 
-class HomePage extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [DrawerScreen(), HomeScreen()],
-      ),
+    return MaterialApp(
+      title: 'Oferta',
+      debugShowCheckedModeBanner: false,
+      home: Home(),
     );
   }
 }
