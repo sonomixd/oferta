@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oferta/widgets/category.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -8,7 +9,12 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Oferta'),
       ),
-      body: Container(),
+      body: ListView(
+        children: <Widget>[
+          Center(child: Text('Categories', style: TextStyle(fontSize: 40),)),
+          Category(),
+        ],
+      ),
     );
   }
 }
