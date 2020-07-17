@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-import 'drawerScreen.dart';
-import 'homeScreen.dart';
+import 'widgets/slideshow.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: HomePage(),
-  ));
+  runApp(MyApp());
 }
 
-class HomePage extends StatelessWidget {
+class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [DrawerScreen(), HomeScreen()],
-      ),
+    return MaterialApp(
+      title: 'Oferta',
+      theme: ThemeData(primaryColor: Colors.teal, accentColor: Colors.white),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Slideshow())
     );
   }
 }
