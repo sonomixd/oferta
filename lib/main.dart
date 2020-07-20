@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/slideshow.dart';
+import 'screens/home_slideshow_screen.dart';
 
 void main() {
   runApp(MyApp());
