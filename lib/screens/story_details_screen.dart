@@ -9,11 +9,31 @@ class StoryDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(height: 32.0),
+          Container(
+              height: 350,
+              margin: EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: NetworkImage(data['images'][2]),
+                    fit: BoxFit.cover,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black87,
+                        blurRadius: 30,
+                        offset: Offset(20, 20))
+                  ]),
+              child: Center(
+                  child: Text(
+                data['title'],
+                style: TextStyle(fontSize: 40, color: Colors.white),
+              )),
+            ),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.topLeft,
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -22,28 +42,6 @@ class StoryDetailsScreen extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(),
             ),
           ),
-          Spacer(),
-          Container(
-            margin: EdgeInsets.only(top: 100, bottom: 50, right: 30),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(data['img']),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black87,
-                      blurRadius: 30,
-                      offset: Offset(20, 20))
-                ]),
-            child: Center(
-                child: Text(
-              data['title'],
-              style: TextStyle(fontSize: 40, color: Colors.white),
-            )),
-          ),
-          Spacer(),
         ],
       ),
     );
