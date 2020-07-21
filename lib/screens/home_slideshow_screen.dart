@@ -35,7 +35,8 @@ class _SlideshowState extends State<Slideshow> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return Scaffold (
+    body: StreamBuilder(
       stream: slides,
       initialData: [],
       builder: (context, AsyncSnapshot snap) {
@@ -53,8 +54,15 @@ class _SlideshowState extends State<Slideshow> {
               return Container();
           },
         );
-      },
-    );
+      }, 
+      
+    ),
+    floatingActionButton: FloatingActionButton (
+      child: Icon(Icons.add),
+      onPressed: () => ctrl.animateToPage(0, duration: Duration(milliseconds: 200), curve: Curves.bounceOut),
+    ),
+  );
+    
   }
 
   void _queryDb({String tag = 'favourites'}) {
