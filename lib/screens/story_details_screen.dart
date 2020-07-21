@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class StoryDetailsScreen extends StatelessWidget {
+class StoryDetailsScreen extends StatefulWidget {
   final Map data;
 
   StoryDetailsScreen(this.data);
 
+  @override
+  _StoryDetailsScreenState createState() => _StoryDetailsScreenState();
+}
+
+class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +22,7 @@ class StoryDetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                    image: NetworkImage(data['images'][2]),
+                    image: NetworkImage(widget.data['images'][2]),
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [
@@ -28,7 +33,7 @@ class StoryDetailsScreen extends StatelessWidget {
                   ]),
               child: Center(
                   child: Text(
-                data['title'],
+                widget.data['title'],
                 style: TextStyle(fontSize: 40, color: Colors.white),
               )),
             ),
