@@ -183,6 +183,7 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
           Align(
             alignment: Alignment.topLeft,
             child: IconButton(
+            padding: EdgeInsets.only(top: 30),
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: Colors.black,
