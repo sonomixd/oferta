@@ -59,7 +59,10 @@ class _SlideshowState extends State<Slideshow> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.home, color: Colors.white,),
+        child: Icon(
+          Icons.home,
+          color: Colors.white,
+        ),
         backgroundColor: Colors.green,
         onPressed: () => ctrl.animateToPage(0,
             duration: Duration(milliseconds: 200), curve: Curves.bounceOut),
@@ -90,56 +93,45 @@ class _SlideshowState extends State<Slideshow> {
         ),
       ),
       child: AnimatedContainer(
-        decoration: BoxDecoration(
-          boxShadow: [
+          decoration: BoxDecoration(boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(1),
-        spreadRadius: 1,
-        blurRadius: 10,
-        offset: Offset(-20, 10),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(-20, 10),
             )
-          ]
-           
-        
-        ),
-       duration: Duration(milliseconds: 1000),
-            curve: Curves.easeOutQuint,
-            margin: EdgeInsets.only(top: 20, bottom: 20, right: 20),
-            child: Stack(
-              children: <Widget>[
-               ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+          ]),
+          duration: Duration(milliseconds: 1000),
+          curve: Curves.easeOutQuint,
+          margin: EdgeInsets.only(top: 20, bottom: 20, right: 20),
+          child: Stack(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
                 child: FadeInImage.assetNetwork(
-                height: double.infinity,
-                fit: BoxFit.cover,
-                placeholder: 'assets/images/google_signin.png', 
-                image: data['img'],
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                  placeholder: 'assets/images/google_signin.png',
+                  image: data['img'],
                 ),
-            ),
-               Center(
-                  child: new CircularPercentIndicator(
-                radius: 200.0,
-                lineWidth: 10.0,
-                percent: double.parse(data['product_sale_percentage']) / 100,
-                center: new Text(
-                  data['product_sale_percentage'] + "%",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 50),
+              ),
+              Center(
+                child: new CircularPercentIndicator(
+                  radius: 200.0,
+                  lineWidth: 10.0,
+                  percent: double.parse(data['product_sale_percentage']) / 100,
+                  center: new Text(
+                    data['product_sale_percentage'] + "%",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 50),
+                  ),
+                  progressColor: Colors.green,
                 ),
-                progressColor: Colors.green,
               ),
-              ),
-              ],
-            )
-            
-
-          
-            
-            
-      ),
-          
+            ],
+          )),
     );
   }
 
