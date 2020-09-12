@@ -15,7 +15,7 @@ class _SlideshowState extends State<Slideshow> {
   final Firestore db = Firestore.instance;
   Stream slides;
 
-  String activeTag = 'fustane';
+  String activeTag = 'sot';
 
   int currentPage = 0;
 
@@ -70,7 +70,7 @@ class _SlideshowState extends State<Slideshow> {
     );
   }
 
-  void _queryDb({String tag = 'fustane'}) {
+  void _queryDb({String tag = 'sot'}) {
     Query query = db.collection('stories').where('tags', arrayContains: tag);
 
     slides =
@@ -171,6 +171,7 @@ class _SlideshowState extends State<Slideshow> {
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
         Text('FILTER', style: TextStyle(color: Colors.black26)),
+        _buildButton('sot'),
         _buildButton('fustane'),
         _buildButton('funde'),
         _buildButton('t-shirt'),
