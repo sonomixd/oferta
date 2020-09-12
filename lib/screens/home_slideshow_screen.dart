@@ -110,7 +110,7 @@ class _SlideshowState extends State<Slideshow> {
                 borderRadius: BorderRadius.circular(20),
                 child: BlurHash(
                   imageFit: BoxFit.cover,
-                  hash: "L9G,_m060A4?NZIttN?Ex-~joc9e",
+                  hash: "TICSbN9Maf~QNIj?-lkAkAxYjbod",
                   image: data['img'],
                 ),
                 // child: FadeInImage.assetNetwork(

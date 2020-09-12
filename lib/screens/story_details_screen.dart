@@ -50,7 +50,7 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
           Positioned(
             child: BlurHash(
                   imageFit: BoxFit.cover,
-                  hash: "L9G,_m060A4?NZIttN?Ex-~joc9e",
+                  hash: "TICSbN9Maf~QNIj?-lkAkAxYjbod",
                   image: widget.data['images'][currentIndex],
                 ),
           //   child: FadeInImage.assetNetwork(
