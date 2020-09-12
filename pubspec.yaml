@@ -29,6 +29,7 @@ dependencies:
   url_launcher: ^5.5.0
   percent_indicator: ^2.1.5
   transparent_image: ^1.0.0
+  flutter_blurhash: ^0.5.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -56,6 +57,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/google_signin.png
+    - assets/images/loading-leaf.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

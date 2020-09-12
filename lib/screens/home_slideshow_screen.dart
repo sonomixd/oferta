@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:oferta/screens/story_details_screen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 
 class Slideshow extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class _SlideshowState extends State<Slideshow> {
   final Firestore db = Firestore.instance;
   Stream slides;
 
-  String activeTag = 'favourites';
+  String activeTag = 'fustane';
 
   int currentPage = 0;
 
@@ -70,7 +70,7 @@ class _SlideshowState extends State<Slideshow> {
     );
   }
 
-  void _queryDb({String tag = 'favourites'}) {
+  void _queryDb({String tag = 'fustane'}) {
     Query query = db.collection('stories').where('tags', arrayContains: tag);
 
     slides =
@@ -108,25 +108,39 @@ class _SlideshowState extends State<Slideshow> {
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: FadeInImage.assetNetwork(
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                  placeholder: 'assets/images/google_signin.png',
+                child: BlurHash(
+                  imageFit: BoxFit.cover,
+                  hash: "L9G,_m060A4?NZIttN?Ex-~joc9e",
                   image: data['img'],
                 ),
+                // child: FadeInImage.assetNetwork(
+                //   height: double.infinity,
+                //   fit: BoxFit.cover,
+                //   placeholder: 'assets/images/loading-leaf.png',
+                //   image: data['img'],
+                // ),
               ),
-              Center(
+              Align(
+                alignment: Alignment.bottomCenter,
                 child: new CircularPercentIndicator(
-                  radius: 200.0,
-                  lineWidth: 10.0,
+                  animation: true,
+                  animationDuration: 2000,
+                  backgroundColor: Colors.white,
+                  radius: 100.0,
+                  lineWidth: 5.0,
                   percent: double.parse(data['product_sale_percentage']) / 100,
                   center: new Text(
                     data['product_sale_percentage'] + "%",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 50),
+                        fontSize: 25),
                   ),
+                footer: new Text(
+                  "ULJE",
+                  style:
+                      new TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17.0),
+                ),
                   progressColor: Colors.green,
                 ),
               ),
@@ -137,18 +151,27 @@ class _SlideshowState extends State<Slideshow> {
 
   _buildTagPage() {
     return Container(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          padding: EdgeInsets.only(top: 40, right: 50), 
       children: <Widget>[
         Text(
           'KATEGORITE',
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
         Text('FILTER', style: TextStyle(color: Colors.black26)),
-        _buildButton('favourites'),
-        _buildButton('happy'),
-        _buildButton('sunny'),
+        _buildButton('fustane'),
+        _buildButton('funde'),
+        _buildButton('t-shirt'),
+        _buildButton('pulover'),
+        _buildButton('kemisha'),
+        _buildButton('xhaketa'),
+        _buildButton('pallto'),
+        _buildButton('xhinse'),
+        _buildButton('shorts'),
+        _buildButton('pantallona'), 
+        _buildButton('shoes'),
+        _buildButton('canta'),
+        _buildButton('aksesore'),
       ],
     ));
   }
