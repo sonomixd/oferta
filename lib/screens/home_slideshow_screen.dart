@@ -95,15 +95,15 @@ class _SlideshowState extends State<Slideshow> {
       child: AnimatedContainer(
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(1),
+              color: Colors.black.withOpacity(0.4),
               spreadRadius: 1,
               blurRadius: 10,
               offset: Offset(-20, 10),
-            )
+            ),
           ]),
           duration: Duration(milliseconds: 1000),
           curve: Curves.easeOutQuint,
-          margin: EdgeInsets.only(top: 20, bottom: 20, right: 20),
+          margin: EdgeInsets.only(top: 40, bottom: 30, right: 40),
           child: Stack(
             children: <Widget>[
               ClipRRect(
@@ -119,6 +119,16 @@ class _SlideshowState extends State<Slideshow> {
                 //   placeholder: 'assets/images/loading-leaf.png',
                 //   image: data['img'],
                 // ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient:
+                    LinearGradient(begin: Alignment.bottomRight, colors: [
+                    Colors.green.withOpacity(.8),
+                    Colors.white.withOpacity(.0),
+                  ]),
+                ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -136,11 +146,13 @@ class _SlideshowState extends State<Slideshow> {
                         fontWeight: FontWeight.bold,
                         fontSize: 25),
                   ),
-                footer: new Text(
-                  "ULJE",
-                  style:
-                      new TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17.0),
-                ),
+                  footer: new Text(
+                    "ULJE",
+                    style: new TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0),
+                  ),
                   progressColor: Colors.green,
                 ),
               ),
@@ -152,7 +164,7 @@ class _SlideshowState extends State<Slideshow> {
   _buildTagPage() {
     return Container(
         child: ListView(
-          padding: EdgeInsets.only(top: 40, right: 50), 
+      padding: EdgeInsets.only(top: 40, right: 50),
       children: <Widget>[
         Text(
           'KATEGORITE',
@@ -168,7 +180,7 @@ class _SlideshowState extends State<Slideshow> {
         _buildButton('pallto'),
         _buildButton('xhinse'),
         _buildButton('shorts'),
-        _buildButton('pantallona'), 
+        _buildButton('pantallona'),
         _buildButton('shoes'),
         _buildButton('canta'),
         _buildButton('aksesore'),

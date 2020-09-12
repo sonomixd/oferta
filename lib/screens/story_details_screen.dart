@@ -82,9 +82,9 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   gradient:
-                      LinearGradient(begin: Alignment.bottomRight, colors: [
-                    Colors.grey[700].withOpacity(.0),
-                    Colors.grey.withOpacity(.0),
+                    LinearGradient(begin: Alignment.topCenter, colors: [
+                    Colors.white.withOpacity(.0),
+                    Colors.white.withOpacity(.2),
                   ]),
                 ),
                 child: Column(
