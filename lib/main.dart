@@ -9,6 +9,10 @@ const String IOS_APP_ID = "ca-app-pub-1136808748888024~2566324176";
 const String ANDROID_APP_ID = "ca-app-pub-1136808748888024~6501699753";
 const String IOS_AD_UNIT_BANNER = "ca-app-pub-1136808748888024/4559074456";
 const String ANDROID_AD_UNIT_BANNER = "ca-app-pub-1136808748888024/3875536416";
+const String IOS_AD_UNIT_INTERSTITIAL =
+    "ca-app-pub-1136808748888024/5583547369";
+const String ANDROID_AD_UNIT_INTERSTITIAL =
+    "ca-app-pub-1136808748888024/2503756758";
 
 String getAppId() {
   if (Platform.isIOS) {
@@ -28,7 +32,17 @@ String getBannerAdUnitId() {
   return null;
 }
 
+String getInterstitialAdUnitId() {
+  if (Platform.isIOS) {
+    return IOS_AD_UNIT_INTERSTITIAL;
+  } else if (Platform.isAndroid) {
+    return ANDROID_AD_UNIT_INTERSTITIAL;
+  }
+  return null;
+}
+
 BannerAd _bannerAd;
+InterstitialAd _interstitialAd;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +65,7 @@ class _MyAppState extends State<MyApp> {
   BannerAd createBannerAd() {
     return BannerAd(
       adUnitId: getBannerAdUnitId(),
-      size: AdSize.banner,
+      size: AdSize.smartBanner,
       targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
         print("BannerAd event $event");
@@ -59,10 +73,23 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  InterstitialAd createInterstitialAd() {
+    return InterstitialAd(
+      adUnitId: getInterstitialAdUnitId(),
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event $event");
+      },
+    );
+  }
+
   @override
   void initState() {
     FirebaseAdMob.instance.initialize(appId: getAppId());
-    _bannerAd = createBannerAd()..load()..show(anchorType: AnchorType.bottom);
+    _bannerAd = createBannerAd()
+      ..load()
+      ..show(anchorType: AnchorType.bottom);
+    _interstitialAd = createInterstitialAd()..load();
     super.initState();
   }
 

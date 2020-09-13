@@ -58,11 +58,13 @@ class _SlideshowState extends State<Slideshow> {
           );
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.home,
           color: Colors.white,
         ),
+
         backgroundColor: Colors.green,
         onPressed: () => ctrl.animateToPage(0,
             duration: Duration(milliseconds: 200), curve: Curves.bounceOut),
@@ -103,7 +105,7 @@ class _SlideshowState extends State<Slideshow> {
           ]),
           duration: Duration(milliseconds: 1000),
           curve: Curves.easeOutQuint,
-          margin: EdgeInsets.only(top: 40, bottom: 30, right: 40),
+          margin: EdgeInsets.only(top: 40, bottom: 100, right: 40),
           child: Stack(
             children: <Widget>[
               ClipRRect(
@@ -133,6 +135,8 @@ class _SlideshowState extends State<Slideshow> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: new CircularPercentIndicator(
+                  startAngle: 270,
+                  restartAnimation: true,
                   animation: true,
                   animationDuration: 2000,
                   backgroundColor: Colors.white,
