@@ -16,6 +16,7 @@ class _SelectCountryState extends State<SelectCountry> {
   @override
   void initState() {
     getSharedPreferencesData();
+    //super.initState();
   }
 
   getSharedPreferencesData() async {
@@ -39,27 +40,45 @@ class _SelectCountryState extends State<SelectCountry> {
     redirectToHomeScreen();
   }
 
-  Text germany = Text("GERMANY");
-  Text albania = Text("ALBANIA");
+  Text germany = Text("DE");
+  Text albania = Text("AL");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        alignment: Alignment.center,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(padding: EdgeInsets.all(100)),
-            RaisedButton(
-              child: germany,
-              onPressed: () {
-                selectedCountry(germany.data);
-              },
+            Text("SELECT YOUR LOCATION",
+             style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20
+            ),),
+            Padding(padding: EdgeInsets.only(top: 50)),
+            ButtonTheme(
+
+              buttonColor: Colors.white,
+              minWidth: MediaQuery.of(context).size.width * 0.7,
+              child: RaisedButton(
+                highlightColor: Colors.green,
+                child: germany,
+                onPressed: () {
+                  selectedCountry(germany.data.toLowerCase());
+                },
+              ),
             ),
-            RaisedButton(
-              child: albania,
-              onPressed: () {
-                selectedCountry(albania.data);
-              },
+            ButtonTheme(
+              buttonColor: Colors.white,
+              minWidth: MediaQuery.of(context).size.width * 0.7,
+              child: RaisedButton(
+                highlightColor: Colors.green,
+                child: albania,
+                onPressed: () {
+                  selectedCountry(albania.data.toLowerCase());
+                },
+              ),
             )
           ],
         ),
