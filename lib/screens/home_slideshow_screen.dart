@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:oferta/screens/story_details_screen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Slideshow extends StatefulWidget {
   @override
@@ -10,23 +11,30 @@ class Slideshow extends StatefulWidget {
 }
 
 class _SlideshowState extends State<Slideshow> {
-  final PageController ctrl = PageController(viewportFraction: 0.8);
-
-  final Firestore db = Firestore.instance;
-  Stream slides;
-
-  String activeTag = 'sot';
-
+  //intance of firestore database
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  //controller for the pages
+  final PageController pageController = PageController(viewportFraction: 0.8);
+  //list of products
+  List<Map<String, dynamic>> fullList = new List<Map<String, dynamic>>();
+  //active tag to be selected when app starts
+  String activeTag = 'trending';
+  //keep track of the pages
   int currentPage = 0;
+  //country collection to retrieve the data from in database
+  String countryCollection = "de";
+
+  var tags = [];
 
   @override
   void initState() {
     super.initState();
-    _queryDb();
-
-    ctrl.addListener(() {
-      int next = ctrl.page.round();
-
+    getSharedPreferencesData();
+    retrieveProductsFromFirestore();
+    retrieveTagsFromFirestore();
+    pageController.addListener(() {
+      int next = pageController.page.round();
       if (currentPage != next) {
         setState(() {
           currentPage = next;
@@ -38,56 +46,62 @@ class _SlideshowState extends State<Slideshow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder(
-        stream: slides,
-        initialData: [],
-        builder: (context, AsyncSnapshot snap) {
-          List slideList = snap.data.toList();
-          return PageView.builder(
-            controller: ctrl,
-            itemCount: slideList.length + 1,
-            itemBuilder: (context, int currentIdx) {
-              if (currentIdx == 0) {
-                return _buildTagPage();
-              } else if (slideList.length >= currentIdx) {
-                bool active = currentIdx == currentPage;
-                return _buildStoryPage(slideList[currentIdx - 1], active);
-              } else
-                return Container();
-            },
-          );
-        },
-      ),
+      body: PageView.builder(
+          controller: pageController,
+          itemCount: fullList.length + 1,
+          itemBuilder: (context, int currentIdx) {
+            if (currentIdx == 0) {
+              return _buildTagPage();
+            } else if (fullList.length >= currentIdx) {
+              return _buildStoryPage(fullList[currentIdx - 1]);
+            } else
+              return Container();
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.home,
           color: Colors.white,
         ),
-
         backgroundColor: Colors.green,
-        onPressed: () => ctrl.animateToPage(0,
+        onPressed: () => pageController.animateToPage(0,
             duration: Duration(milliseconds: 200), curve: Curves.bounceOut),
       ),
     );
   }
 
-  void _queryDb({String tag = 'sot'}) {
-    Query query = db.collection('stories').where('tags', arrayContains: tag);
-
-    slides =
-        query.snapshots().map((list) => list.documents.map((doc) => doc.data));
-
+  //function to get data from shared preferences
+  getSharedPreferencesData() async {
+    final SharedPreferences prefs = await _prefs;
+    String country = prefs.getString("COUNTRY");
+    if (country == null) {
+      prefs.setString("COUNTRY", "de");
+      country = prefs.getString("COUNTRY");
+    } 
     setState(() {
-      activeTag = tag;
+      countryCollection = country;
     });
   }
 
-  _buildStoryPage(Map data, bool active) {
-    final double blur = active ? 30 : 0;
-    final double offset = active ? 20 : 0;
-    final double top = active ? 100 : 0;
+  //function to retrieve all the products with the selected tag from firestore
+  retrieveProductsFromFirestore({String tag = 'trending'}) async {
+    FirebaseFirestore.instance
+        .collection(countryCollection)
+        .where('tags', arrayContains: tag)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((element) {
+        setState(() {
+          Map<String, dynamic> map = element.data.call();
+          fullList = new List<Map<String, dynamic>>();
+          fullList.add(map);
+        });
+      });
+    });
+  }
 
+  //function to build the story page
+  _buildStoryPage(Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
@@ -113,7 +127,7 @@ class _SlideshowState extends State<Slideshow> {
                 child: BlurHash(
                   imageFit: BoxFit.cover,
                   hash: "TICSbN9Maf~QNIj?-lkAkAxYjbod",
-                  image: data['img'],
+                  image: data['image_url'],
                 ),
                 // child: FadeInImage.assetNetwork(
                 //   height: double.infinity,
@@ -126,7 +140,7 @@ class _SlideshowState extends State<Slideshow> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient:
-                    LinearGradient(begin: Alignment.bottomRight, colors: [
+                      LinearGradient(begin: Alignment.bottomRight, colors: [
                     Colors.green.withOpacity(.8),
                     Colors.white.withOpacity(.0),
                   ]),
@@ -142,9 +156,9 @@ class _SlideshowState extends State<Slideshow> {
                   backgroundColor: Colors.white,
                   radius: 100.0,
                   lineWidth: 5.0,
-                  percent: double.parse(data['product_sale_percentage']) / 100,
+                  percent: double.parse(data['sale_percentage']) / 100,
                   center: new Text(
-                    data['product_sale_percentage'] + "%",
+                    data['sale_percentage'] + "%",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -165,6 +179,7 @@ class _SlideshowState extends State<Slideshow> {
     );
   }
 
+  //function to build the tags page
   _buildTagPage() {
     return Container(
         child: ListView(
@@ -175,29 +190,39 @@ class _SlideshowState extends State<Slideshow> {
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
         Text('FILTER', style: TextStyle(color: Colors.black26)),
-        _buildButton('sot'),
-        _buildButton('fustane'),
-        _buildButton('funde'),
-        _buildButton('t-shirt'),
-        _buildButton('pulover'),
-        _buildButton('kemisha'),
-        _buildButton('xhaketa'),
-        _buildButton('pallto'),
-        _buildButton('xhinse'),
-        _buildButton('shorts'),
-        _buildButton('pantallona'),
-        _buildButton('shoes'),
-        _buildButton('canta'),
-        _buildButton('aksesore'),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            for (int i = 0; i < tags.length; i++) _buildButton(tags[i])
+          ],
+        )
       ],
     ));
   }
 
+  //function to build the tag button
   _buildButton(tag) {
     Color color = tag == activeTag ? Colors.green : Colors.white;
     return FlatButton(
         color: color,
         child: Text('#$tag'),
-        onPressed: () => _queryDb(tag: tag));
+        onPressed: () {
+          activeTag = tag;
+          retrieveProductsFromFirestore(tag: tag);
+        });
+  }
+
+  //function to retrieve all the tags from firestore
+  retrieveTagsFromFirestore() async {
+    FirebaseFirestore.instance
+        .collection('tags')
+        .orderBy('order')
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) {
+                tags.add(doc["tag"]);
+              })
+            });
   }
 }
