@@ -16,7 +16,7 @@ class _SelectCountryState extends State<SelectCountry> {
   @override
   void initState() {
     getSharedPreferencesData();
-    //super.initState();
+    super.initState();
   }
 
   getSharedPreferencesData() async {
