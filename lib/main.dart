@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:oferta/screens/country_selection.dart';
 import 'package:flutter/services.dart';
 
