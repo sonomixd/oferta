@@ -13,10 +13,11 @@ class StoryDetailsScreen extends StatefulWidget {
 }
 
 class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
-  String url = "";
+  Future<void> _launched;
 
   @override
   Widget build(BuildContext context) {
+    String url = Text(widget.data['url']).data;
     return Scaffold(
       body: Stack(
         children: [
@@ -30,8 +31,9 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
           Positioned(
             top: MediaQuery.of(context).size.height * 0.7,
             child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(30),
+              width: MediaQuery.of(context).size.width,
+              padding:
+                  EdgeInsets.only(top: 10, bottom: 120, left: 30, right: 30),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -40,12 +42,14 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    widget.data['title'],
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.grey[800],
-                        fontWeight: FontWeight.bold),
+                  Container(
+                    child: Text(
+                      widget.data['title'],
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                   SizedBox(
                     height: 20,
@@ -70,7 +74,7 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
                             style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20),
+                                fontSize: 20), 
                           ),
                         ],
                       )
@@ -79,23 +83,22 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
                   Padding(padding: EdgeInsets.only(top: 30)),
                   Container(
                     height: 40,
+                    width: MediaQuery.of(context).size.height * 0.7,
                     decoration: BoxDecoration(
                         color: Colors.green,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     padding: EdgeInsets.all(6),
-                    child: ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width * 0.8,
-                      height: 30,
-                      child: FlatButton(
-                          color: Colors.green,
-                          child: Text(
-                            "GO TO STORE",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: () {
-                            Text text = Text(widget.data['url']);
-                            _launchUniversalLinks(text.data);
-                          }),
+                    child: Center(
+                      child: InkWell(
+                        child: Text(
+                          "GO TO STORE",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () => setState(() {
+                            _launched = _launchUniversalLinkIos(url);
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -118,13 +121,18 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
     );
   }
 
-  Future<void> _launchUniversalLinks(String url) async {
+  Future<void> _launchUniversalLinkIos(String url) async {
     if (await canLaunch(url)) {
-      final bool appLaunchedSuccessfully =
-          await launch(url, forceSafariVC: false, universalLinksOnly: true);
-
-      if (!appLaunchedSuccessfully) {
-        await launch(url, forceSafariVC: true);
+      final bool nativeAppLaunchSucceeded = await launch(
+        url,
+        forceSafariVC: false,
+        universalLinksOnly: true,
+      );
+      if (!nativeAppLaunchSucceeded) {
+        await launch(
+          url,
+          forceSafariVC: true,
+        );
       }
     }
   }

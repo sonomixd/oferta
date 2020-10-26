@@ -57,7 +57,7 @@ class _SlideshowState extends State<Slideshow> {
             } else
               return Container();
           }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.home,
@@ -119,7 +119,7 @@ class _SlideshowState extends State<Slideshow> {
           ]),
           duration: Duration(milliseconds: 1000),
           curve: Curves.easeOutQuint,
-          margin: EdgeInsets.only(top: 40, bottom: 100, right: 40),
+          margin: EdgeInsets.only(top: 40, bottom: 40, right: 40),
           child: Stack(
             children: <Widget>[
               ClipRRect(
@@ -165,7 +165,7 @@ class _SlideshowState extends State<Slideshow> {
                         fontSize: 25),
                   ),
                   footer: new Text(
-                    "ULJE",
+                    "SALE",
                     style: new TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -194,6 +194,7 @@ class _SlideshowState extends State<Slideshow> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            _buildButton("trending"),
             for (int i = 0; i < tags.length; i++) _buildButton(tags[i])
           ],
         )
