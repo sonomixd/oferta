@@ -80,21 +80,23 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
                       )
                     ],
                   ),
-                  Padding(padding: EdgeInsets.only(top: 30)),
+                  Padding(padding: EdgeInsets.only(top: 20)),
                   Container(
                     height: 40,
-                    width: MediaQuery.of(context).size.height * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     decoration: BoxDecoration(
                         color: Colors.green,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     padding: EdgeInsets.all(6),
                     child: Center(
-                      child: InkWell(
+                      child: FlatButton(
+                        padding: EdgeInsets.only(left: 100, right: 100),
                         child: Text(
                           "GO TO STORE",
                           style: TextStyle(fontWeight: FontWeight.bold),
+                          
                         ),
-                        onTap: () => setState(() {
+                        onPressed: () => setState(() {
                             _launched = _launchUniversalLinkIos(url);
                           },
                         ),
@@ -108,7 +110,7 @@ class _StoryDetailsScreenState extends State<StoryDetailsScreen> {
           Align(
             alignment: Alignment.topLeft,
             child: IconButton(
-              padding: EdgeInsets.only(top: 30),
+              padding: EdgeInsets.only(top: 50, left: 10),
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: Colors.black,
